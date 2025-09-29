@@ -58,7 +58,7 @@
     <div class="container mx-auto px-4 py-8 md:py-12">
         <header class="text-center mb-10">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Guía Interactiva de Electromagnetismo</h1>
-            <p class="mt-2 text-lg text-gray-600">Un resumen visual y práctico para la PEP 1.</p>
+            <p class="mt-2 text-lg text-gray-600">Un resumen visual y práctico para tu examen.</p>
         </header>
         
         <section class="mb-10">
@@ -94,32 +94,38 @@
             
             <section id="topic-1" class="topic-content space-y-8">
                 <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">Este tema introduce los conceptos fundamentales de la carga eléctrica, la fuerza que ejercen entre sí (Ley de Coulomb) y cómo estas cargas modifican el espacio a su alrededor creando un campo eléctrico.</p>
-                <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="grid lg:grid-cols-2 gap-8 items-start">
                     <div class="card rounded-lg shadow-md p-6 space-y-4">
                         <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
                         <p><strong class="font-medium text-gray-700">Propiedades de la Carga:</strong> Existen dos tipos, positiva y negativa. Cargas iguales se repelen, cargas opuestas se atraen. La carga está cuantizada y se conserva.</p>
                         <p><strong class="font-medium text-gray-700">Ley de Coulomb:</strong> Describe la magnitud y dirección de la fuerza electrostática entre dos cargas puntuales. Es una fuerza vectorial.</p>
-                        <p><strong class="font-medium text-gray-700">Campo Eléctrico (E):</strong> Es una perturbación del espacio generada por una carga fuente. Se define como la fuerza por unidad de carga que sentiría una carga de prueba positiva. Sus líneas se alejan de las cargas (+) y apuntan hacia las cargas (-).</p>
+                        <p><strong class="font-medium text-gray-700">Campo Eléctrico (E):</strong> Es una perturbación del espacio generada por una carga fuente. Se define como la fuerza por unidad de carga que sentiría una carga de prueba positiva.</p>
                         <p><strong class="font-medium text-gray-700">Principio de Superposición:</strong> La fuerza o campo neto en un punto es la suma vectorial de las contribuciones de todas las cargas individuales.</p>
                     </div>
                     <div class="space-y-6">
                         <div class="card rounded-lg p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Fórmulas Clave</h3>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Fórmulas Fundamentales</h3>
+                            
+                            <h4 class="font-semibold text-gray-700 mt-4 mb-2">Fuerza y Campo</h4>
                             <div class="formula p-4 rounded-md mb-2 text-center">
-                                <p class="text-lg">$$\vec{F}_{12} = k_e \frac{q_1 q_2}{r^2}\hat{r}_{12}$$</p>
-                                <p class="text-sm text-gray-600 mt-1">Ley de Coulomb (Vectorial)</p>
+                                <p>$$\vec{F}_{12} = k_e \frac{q_1 q_2}{r^2}\hat{r}_{12}$$</p>
+                            </div>
+                            <div class="formula p-4 rounded-md mb-4 text-center">
+                                <p>$$\vec{E} = k_e \frac{q}{r^2}\hat{r}$$</p>
+                            </div>
+
+                            <h4 class="font-semibold text-gray-700 mt-6 mb-2">Densidades de Carga</h4>
+                            <div class="formula p-4 rounded-md mb-2 text-center">
+                                <p>$$\lambda = \frac{Q}{L}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Lineal (C/m)</p>
                             </div>
                             <div class="formula p-4 rounded-md mb-2 text-center">
-                                <p class="text-lg">$$\vec{E} = k_e \frac{q}{r^2}\hat{r}$$</p>
-                                <p class="text-sm text-gray-600 mt-1">Campo de Carga Puntual</p>
-                            </div>
-                            <div class="formula p-4 rounded-md mb-2 text-center">
-                                <p class="text-lg">$$E_x = \frac{k_e x Q}{(x^2+a^2)^{3/2}}$$.</p>
-                                <p class="text-sm text-gray-600 mt-1">Campo de Anillo Cargado (eje x)</p>
+                                <p>$$\sigma = \frac{Q}{A}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Superficial (C/m²)</p>
                             </div>
                             <div class="formula p-4 rounded-md text-center">
-                                <p class="text-lg">$$E = \frac{k_e Q}{a(a+l)}$$</p>
-                                <p class="text-sm text-gray-600 mt-1">Campo de Barra Cargada (eje)</p>
+                                <p>$$\rho = \frac{Q}{V}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Volumétrica (C/m³)</p>
                             </div>
                         </div>
                         <div class="interactive-container rounded-lg p-6 text-center">
@@ -142,51 +148,84 @@
             
             <section id="topic-2" class="topic-content space-y-8 hidden">
                 <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">La Ley de Gauss es una de las ecuaciones fundamentales del electromagnetismo. Relaciona el flujo eléctrico que atraviesa una superficie cerrada con la cantidad de carga que hay en su interior, ofreciendo un método poderoso para calcular campos eléctricos en situaciones de alta simetría.</p>
-                <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="grid lg:grid-cols-2 gap-8 items-start">
                     <div class="card rounded-lg shadow-md p-6 space-y-4">
                         <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
-                        <p><strong class="font-medium text-gray-700">Flujo Eléctrico ($\Phi_E$):</strong> Medida del número de líneas de campo eléctrico que cruzan una superficie. Depende de la magnitud del campo, el área de la superficie y el ángulo entre ambos.</p>
-                        <p><strong class="font-medium text-gray-700">Superficie Gaussiana:</strong> Una superficie cerrada imaginaria que se elige estratégicamente para simplificar el cálculo del campo eléctrico. La elección correcta de esta superficie es clave.</p>
-                        <p><strong class="font-medium text-gray-700">Conductores en Equilibrio:</strong> En estado de equilibrio, el campo eléctrico dentro de un conductor es cero y cualquier carga neta reside en su superficie exterior.</p>
-                    </div>
-                    <div class="space-y-6">
-                         <div class="card rounded-lg p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Fórmulas Clave</h3>
+                        <p><strong class="font-medium text-gray-700">Flujo Eléctrico ($\Phi_E$):</strong> Medida del número de líneas de campo eléctrico que cruzan una superficie.</p>
+                        <p><strong class="font-medium text-gray-700">Superficie Gaussiana:</strong> Una superficie cerrada imaginaria que se elige estratégicamente para simplificar el cálculo.</p>
+                        <p><strong class="font-medium text-gray-700">Conductores en Equilibrio:</strong> El campo eléctrico dentro de un conductor es cero y cualquier carga neta reside en su superficie exterior.</p>
+                         <div class="mt-6">
                             <div class="formula p-4 rounded-md text-center mb-2">
                                 <p class="text-lg">$$\Phi_E = \int \vec{E} \cdot d\vec{A}$$</p>
-                                <p class="text-sm text-gray-600 mt-1">Definición de Flujo Eléctrico</p>
                             </div>
                             <div class="formula p-4 rounded-md text-center">
                                 <p class="text-lg">$$\oint \vec{E} \cdot d\vec{A} = \frac{q_{\text{int}}}{\epsilon_0}$$</p>
                                 <p class="text-sm text-gray-600 mt-1">Ley de Gauss</p>
                             </div>
-                            <h4 class="font-semibold text-gray-700 mt-6 mb-2">Aplicaciones y Derivaciones</h4>
-                            <div class="formula p-4 rounded-md mb-2 text-center">
-                                <p class="text-lg">$$E = k_e \frac{q}{r^2}$$</p>
-                                <p class="text-xs text-gray-600 mt-1">Campo de carga puntual (desde Gauss).<br>Usando $F=q_0E$ se obtiene la Ley de Coulomb.</p>
-                            </div>
-                             <div class="formula p-4 rounded-md text-center">
-                                <p class="text-lg">$$E = 2k_e \frac{\lambda}{r} = \frac{\lambda}{2\pi\epsilon_0 r}$$</p>
-                                <p class="text-sm text-gray-600 mt-1">Campo de línea de carga infinita</p>
-                            </div>
                         </div>
-                        <div class="interactive-container rounded-lg p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Campo de una Esfera Aislante</h3>
-                            <p class="text-sm text-gray-600 mb-4">Ejemplo de aplicación de la Ley de Gauss para una esfera de radio 'a'.</p>
-                            <div class="chart-container relative h-64 md:h-80 w-full max-w-xl mx-auto">
-                                <canvas id="gauss-chart"></canvas>
-                            </div>
+                    </div>
+                    <div class="interactive-container rounded-lg p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Campo de una Esfera Aislante</h3>
+                        <p class="text-sm text-gray-600 mb-4">Ejemplo de aplicación de la Ley de Gauss para una esfera de radio 'a'.</p>
+                        <div class="chart-container relative h-64 md:h-80 w-full max-w-xl mx-auto">
+                            <canvas id="gauss-chart"></canvas>
                         </div>
+                    </div>
+                </div>
+                <div class="card rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Aplicaciones de la Ley de Gauss</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="border-b-2 border-gray-300">
+                                <tr>
+                                    <th class="p-4">Geometría</th>
+                                    <th class="p-4">Tipo</th>
+                                    <th class="p-4">Campo Interior ($r<R$)</th>
+                                    <th class="p-4">Campo Exterior ($r>R$)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium" rowspan="2">Esfera Sólida</td>
+                                    <td class="p-4">Aislante</td>
+                                    <td class="p-4">$$E = \frac{k_e Q}{R^3}r$$</td>
+                                    <td class="p-4" rowspan="2">$$E = k_e \frac{Q}{r^2}$$</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4">Conductora</td>
+                                    <td class="p-4">$$E=0$$</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium" rowspan="2">Cilindro Infinito</td>
+                                    <td class="p-4">Aislante</td>
+                                    <td class="p-4">$$E = \frac{\lambda}{2\pi\epsilon_0 R^2}r$$</td>
+                                    <td class="p-4" rowspan="2">$$E = \frac{\lambda}{2\pi\epsilon_0 r}$$</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4">Conductor</td>
+                                    <td class="p-4">$$E=0$$</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium" rowspan="2">Plano Infinito</td>
+                                    <td class="p-4">Aislante</td>
+                                    <td class="p-4" colspan="2">$$E = \frac{\sigma}{2\epsilon_0}$$</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4">Conductor</td>
+                                    <td class="p-4" colspan="2">$$E = \frac{\sigma}{\epsilon_0}$$</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
             
             <section id="topic-3" class="topic-content space-y-8 hidden">
                  <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">El potencial eléctrico es un concepto escalar que simplifica muchos problemas de electrostática. Representa la energía potencial por unidad de carga y está íntimamente relacionado con el campo eléctrico.</p>
-                <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="grid lg:grid-cols-2 gap-8 items-start">
                     <div class="card rounded-lg shadow-md p-6 space-y-4">
                         <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
-                        <p><strong class="font-medium text-gray-700">Diferencia de Potencial ($\Delta V$):</strong> Es el trabajo necesario para mover una unidad de carga entre dos puntos en un campo eléctrico. Es una cantidad escalar, medida en Voltios (V).</p>
+                        <p><strong class="font-medium text-gray-700">Diferencia de Potencial ($\Delta V$):</strong> Es el trabajo necesario para mover una unidad de carga entre dos puntos en un campo eléctrico. Se mide en Voltios (V).</p>
                         <p><strong class="font-medium text-gray-700">Relación E y V:</strong> El campo eléctrico apunta en la dirección en que el potencial disminuye más rápidamente. El campo es el gradiente negativo del potencial.</p>
                         <p><strong class="font-medium text-gray-700">Superficies Equipotenciales:</strong> Son superficies donde el potencial eléctrico es constante. Las líneas de campo eléctrico son siempre perpendiculares a ellas.</p>
                         <p><strong class="font-medium text-gray-700">Potencial en Conductores:</strong> En equilibrio, toda la superficie y el interior de un conductor están al mismo potencial.</p>
@@ -220,13 +259,13 @@
             
             <section id="topic-4" class="topic-content space-y-8 hidden">
                 <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">Este tema se enfoca en el movimiento de las cargas (corriente eléctrica) a través de materiales conductores. Introduce los conceptos de resistencia, la Ley de Ohm, la potencia disipada y las reglas para analizar circuitos simples.</p>
-                <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="grid lg:grid-cols-2 gap-8 items-start">
                     <div class="card rounded-lg shadow-md p-6 space-y-4">
                         <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
                         <p><strong class="font-medium text-gray-700">Corriente Eléctrica (I):</strong> Es el flujo de carga eléctrica por unidad de tiempo, medido en Amperios (A).</p>
-                        <p><strong class="font-medium text-gray-700">Resistencia (R):</strong> Es la oposición de un material al paso de la corriente eléctrica, medida en Ohmios ($\Omega$). Depende del material (resistividad), su longitud y su área.</p>
+                        <p><strong class="font-medium text-gray-700">Resistencia (R):</strong> Es la oposición de un material al paso de la corriente eléctrica, medida en Ohmios ($\Omega$).</p>
                         <p><strong class="font-medium text-gray-700">Ley de Ohm:</strong> Establece que la diferencia de potencial en un resistor es directamente proporcional a la corriente que lo atraviesa ($V = IR$).</p>
-                        <p><strong class="font-medium text-gray-700">Leyes de Kirchhoff:</strong> Reglas fundamentales para el análisis de circuitos. La ley de uniones se basa en la conservación de la carga y la ley de espiras en la conservación de la energía.</p>
+                        <p><strong class="font-medium text-gray-700">Leyes de Kirchhoff:</strong> Reglas fundamentales para el análisis de circuitos. La ley de uniones (conservación de carga) y la ley de espiras (conservación de energía).</p>
                     </div>
                     <div class="space-y-6">
                         <div class="card rounded-lg p-6">
@@ -267,8 +306,8 @@
                                     <input type="number" id="r2" value="20" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 </div>
                             </div>
-                            <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md text-center">
-                                <p class="font-bold text-lg">$$R_{eq} = \text{<span id="req-result">30.00</span> } \Omega$$</p>
+                            <div id="req-container" class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md text-center">
+                                <!-- KaTeX output here -->
                             </div>
                         </div>
                     </div>
@@ -282,6 +321,13 @@
             const tabs = document.querySelectorAll('.tab-button');
             const topics = document.querySelectorAll('.topic-content');
             
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     const topicId = tab.dataset.topic;
@@ -295,6 +341,12 @@
                         } else {
                             topic.classList.add('hidden');
                         }
+                    });
+                     renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "$", right: "$", display: false}
+                        ]
                     });
                 });
             });
@@ -518,7 +570,14 @@
             const typeSelect = document.getElementById('circuit-type');
             const r1Input = document.getElementById('r1');
             const r2Input = document.getElementById('r2');
-            const resultSpan = document.getElementById('req-result');
+            const reqContainer = document.getElementById('req-container');
+            
+            const katexOptions = {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            };
             
             function calculate() {
                 const type = typeSelect.value;
@@ -529,12 +588,13 @@
                 if (type === 'series') {
                     req = r1 + r2;
                 } else {
-                    if (r1 !== 0 || r2 !== 0) {
+                    if (r1 > 0 || r2 > 0) {
                         req = (r1 * r2) / (r1 + r2);
                     }
                 }
-                resultSpan.textContent = req.toFixed(2);
-                renderMathInElement(document.body);
+                
+                reqContainer.innerHTML = `$$R_{eq} = ${req.toFixed(2)} \\, \\Omega$$`;
+                renderMathInElement(reqContainer, katexOptions);
             }
 
             typeSelect.addEventListener('change', calculate);
@@ -543,18 +603,6 @@
 
             calculate();
         }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: "$$", right: "$$", display: true},
-                    {left: "$", right: "$", display: false},
-                    {left: "\\(", right: "\\)", display: false},
-                    {left: "\\[", right: "\\]", display: true}
-                ]
-            });
-        });
     </script>
 </body>
 </html>
