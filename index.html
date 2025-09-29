@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva de Electromagnetismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: Se ha diseñado una aplicación de una sola página (SPA) con una estructura de pestañas para una navegación clara y enfocada. Cada pestaña corresponde a uno de los cuatro temas del examen. Este enfoque permite al usuario concentrarse en un tema a la vez, facilitando un estudio modular. Dentro de cada tema, el contenido se organiza en una cuadrícula de dos columnas: una para los conceptos teóricos y resúmenes, y otra para las fórmulas clave y una visualización interactiva (diagrama en canvas, gráfico o calculadora). Esta estructura fue elegida para separar la teoría de la aplicación práctica, mejorando la usabilidad y la retención del conocimiento al permitir al usuario interactuar directamente con los conceptos. -->
+    <!-- Visualization & Content Choices: 
+        1. Fuerza y Campo Eléctrico: Goal: Visualizar la naturaleza vectorial de la Ley de Coulomb. Presentation: Un diagrama en Canvas que muestra dos cargas. Interaction: Botones para cambiar el signo de las cargas, actualizando dinámicamente los vectores de fuerza para mostrar atracción o repulsión. Justification: Transforma un diagrama estático en una demostración interactiva de causa y efecto. Library: Vanilla JS Canvas API.
+        2. Ley de Gauss: Goal: Mostrar el comportamiento del campo eléctrico de una esfera cargada, un resultado clave de la Ley de Gauss. Presentation: Un gráfico de líneas con Chart.js. Interaction: Estático pero visualmente claro. El gráfico muestra cómo el campo E es proporcional a r dentro de la esfera y a 1/r^2 fuera de ella. Justification: Clarifica una relación matemática compleja de forma gráfica e inmediata. Library: Chart.js.
+        3. Potencial Eléctrico: Goal: Comparar la disminución del potencial (V) y el campo eléctrico (E) con la distancia. Presentation: Un gráfico de líneas con Chart.js mostrando ambas curvas (1/r vs 1/r^2). Interaction: Estático. Justification: Permite una comparación visual directa de las dos funciones, reforzando la relación E = -dV/dr. Library: Chart.js.
+        4. Corriente y Resistencia: Goal: Proporcionar una herramienta práctica para un concepto fundamental de circuitos. Presentation: Una calculadora de resistencia equivalente. Interaction: El usuario selecciona 'Serie' o 'Paralelo' e introduce valores de resistencia para ver el resultado al instante. Justification: Fomenta el aprendizaje activo y la experimentación con las fórmulas de circuitos. Library: Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            color: #383838;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .active-tab {
+            border-bottom-color: #4A90E2;
+            color: #4A90E2;
+            font-weight: 600;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAEAEA;
+        }
+        .formula {
+            background-color: #F7F9FC;
+            border-left: 3px solid #4A90E2;
+        }
+        .interactive-container {
+            border: 1px solid #EAEAEA;
+            background-color: #FAFAFA;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Guía Interactiva de Electromagnetismo</h1>
+            <p class="mt-2 text-lg text-gray-600">Un resumen visual y práctico para la PEP 1.</p>
+        </header>
+
+        <nav class="flex justify-center border-b border-gray-200 mb-8">
+            <div class="flex flex-wrap justify-center space-x-4 md:space-x-8 -mb-px">
+                <button data-topic="1" class="tab-button py-4 px-1 text-base md:text-lg font-medium text-gray-500 hover:text-blue-500 hover:border-gray-300 focus:outline-none active-tab">1. Fuerza y Campo</button>
+                <button data-topic="2" class="tab-button py-4 px-1 text-base md:text-lg font-medium text-gray-500 hover:text-blue-500 hover:border-gray-300 focus:outline-none">2. Ley de Gauss</button>
+                <button data-topic="3" class="tab-button py-4 px-1 text-base md:text-lg font-medium text-gray-500 hover:text-blue-500 hover:border-gray-300 focus:outline-none">3. Potencial Eléctrico</button>
+                <button data-topic="4" class="tab-button py-4 px-1 text-base md:text-lg font-medium text-gray-500 hover:text-blue-500 hover:border-gray-300 focus:outline-none">4. Corriente</button>
+            </div>
+        </nav>
+
+        <main id="topics-container">
+            
+            <section id="topic-1" class="topic-content space-y-8">
+                <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">Este tema introduce los conceptos fundamentales de la carga eléctrica, la fuerza que ejercen entre sí (Ley de Coulomb) y cómo estas cargas modifican el espacio a su alrededor creando un campo eléctrico.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card rounded-lg shadow-md p-6 space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
+                        <p><strong class="font-medium text-gray-700">Propiedades de la Carga:</strong> Existen dos tipos, positiva y negativa. Cargas iguales se repelen, cargas opuestas se atraen. La carga está cuantizada y se conserva.</p>
+                        <p><strong class="font-medium text-gray-700">Ley de Coulomb:</strong> Describe la magnitud y dirección de la fuerza electrostática entre dos cargas puntuales. Es una fuerza vectorial.</p>
+                        <p><strong class="font-medium text-gray-700">Campo Eléctrico (E):</strong> Es una perturbación del espacio generada por una carga fuente. Se define como la fuerza por unidad de carga que sentiría una carga de prueba positiva. Sus líneas se alejan de las cargas (+) y apuntan hacia las cargas (-).</p>
+                        <p><strong class="font-medium text-gray-700">Principio de Superposición:</strong> La fuerza o campo neto en un punto es la suma vectorial de las contribuciones de todas las cargas individuales.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="card rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Fórmulas Esenciales</h3>
+                            <div class="formula p-4 rounded-md mb-4 text-center">
+                                <p class="text-lg">$$F_e = k_e \frac{|q_1 q_2|}{r^2}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Ley de Coulomb (magnitud)</p>
+                            </div>
+                            <div class="formula p-4 rounded-md text-center">
+                                <p class="text-lg">$$\vec{E} = k_e \frac{q}{r^2}\hat{r}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Campo Eléctrico de una carga puntual</p>
+                            </div>
+                        </div>
+                        <div class="interactive-container rounded-lg p-6 text-center">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Interacción de Fuerzas</h3>
+                            <canvas id="coulomb-canvas" class="w-full h-48 bg-white rounded-md border"></canvas>
+                             <div class="mt-4 flex justify-center items-center space-x-6">
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-medium">q₁:</span>
+                                    <button id="q1-toggle" class="px-3 py-1 text-sm font-semibold rounded-full focus:outline-none"></button>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-medium">q₂:</span>
+                                    <button id="q2-toggle" class="px-3 py-1 text-sm font-semibold rounded-full focus:outline-none"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="topic-2" class="topic-content space-y-8 hidden">
+                <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">La Ley de Gauss es una de las ecuaciones fundamentales del electromagnetismo. Relaciona el flujo eléctrico que atraviesa una superficie cerrada con la cantidad de carga que hay en su interior, ofreciendo un método poderoso para calcular campos eléctricos en situaciones de alta simetría.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card rounded-lg shadow-md p-6 space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
+                        <p><strong class="font-medium text-gray-700">Flujo Eléctrico (ΦE):</strong> Medida del número de líneas de campo eléctrico que cruzan una superficie. Depende de la magnitud del campo, el área de la superficie y el ángulo entre ambos.</p>
+                        <p><strong class="font-medium text-gray-700">Superficie Gaussiana:</strong> Una superficie cerrada imaginaria que se elige estratégicamente para simplificar el cálculo del campo eléctrico. La elección correcta de esta superficie es clave.</p>
+                        <p><strong class="font-medium text-gray-700">Conductores en Equilibrio:</strong> En estado de equilibrio, el campo eléctrico dentro de un conductor es cero y cualquier carga neta reside en su superficie exterior.</p>
+                    </div>
+                    <div class="space-y-6">
+                         <div class="card rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Fórmula Fundamental</h3>
+                            <div class="formula p-4 rounded-md text-center">
+                                <p class="text-lg">$$\oint \vec{E} \cdot d\vec{A} = \frac{q_{\text{int}}}{\epsilon_0}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Ley de Gauss</p>
+                            </div>
+                        </div>
+                        <div class="interactive-container rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Campo de una Esfera Aislante</h3>
+                            <p class="text-sm text-gray-600 mb-4">Ejemplo de aplicación de la Ley de Gauss para una esfera de radio 'a'.</p>
+                            <div class="chart-container relative h-64 md:h-80 w-full max-w-xl mx-auto">
+                                <canvas id="gauss-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="topic-3" class="topic-content space-y-8 hidden">
+                 <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">El potencial eléctrico es un concepto escalar que simplifica muchos problemas de electrostática. Representa la energía potencial por unidad de carga y está íntimamente relacionado con el campo eléctrico.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card rounded-lg shadow-md p-6 space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
+                        <p><strong class="font-medium text-gray-700">Diferencia de Potencial (ΔV):</strong> Es el trabajo necesario para mover una unidad de carga entre dos puntos en un campo eléctrico. Es una cantidad escalar, medida en Voltios (V).</p>
+                        <p><strong class="font-medium text-gray-700">Relación E y V:</strong> El campo eléctrico apunta en la dirección en que el potencial disminuye más rápidamente. El campo es el gradiente negativo del potencial.</p>
+                        <p><strong class="font-medium text-gray-700">Superficies Equipotenciales:</strong> Son superficies donde el potencial eléctrico es constante. Las líneas de campo eléctrico son siempre perpendiculares a ellas.</p>
+                        <p><strong class="font-medium text-gray-700">Potencial en Conductores:</strong> En equilibrio, toda la superficie y el interior de un conductor están al mismo potencial.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="card rounded-lg p-6">
+                             <h3 class="text-xl font-semibold text-gray-800 mb-4">Fórmulas Esenciales</h3>
+                            <div class="formula p-4 rounded-md mb-4 text-center">
+                                <p class="text-lg">$$\Delta V = -\int_A^B \vec{E} \cdot d\vec{s}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Relación general entre V y E</p>
+                            </div>
+                            <div class="formula p-4 rounded-md text-center">
+                                <p class="text-lg">$$V = k_e \frac{q}{r}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Potencial de una carga puntual</p>
+                            </div>
+                        </div>
+                        <div class="interactive-container rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Campo vs. Potencial</h3>
+                             <p class="text-sm text-gray-600 mb-4">Comparación de cómo decaen E (1/r²) y V (1/r) con la distancia 'r'.</p>
+                            <div class="chart-container relative h-64 md:h-80 w-full max-w-xl mx-auto">
+                                <canvas id="potential-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="topic-4" class="topic-content space-y-8 hidden">
+                <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">Este tema se enfoca en el movimiento de las cargas (corriente eléctrica) a través de materiales conductores. Introduce los conceptos de resistencia, la Ley de Ohm, la potencia disipada y las reglas para analizar circuitos simples.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card rounded-lg shadow-md p-6 space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Conceptos Clave</h3>
+                        <p><strong class="font-medium text-gray-700">Corriente Eléctrica (I):</strong> Es el flujo de carga eléctrica por unidad de tiempo, medido en Amperios (A).</p>
+                        <p><strong class="font-medium text-gray-700">Resistencia (R):</strong> Es la oposición de un material al paso de la corriente eléctrica, medida en Ohmios (Ω). Depende del material (resistividad), su longitud y su área.</p>
+                        <p><strong class="font-medium text-gray-700">Ley de Ohm:</strong> Establece que la diferencia de potencial en un resistor es directamente proporcional a la corriente que lo atraviesa (V = IR).</p>
+                        <p><strong class="font-medium text-gray-700">Leyes de Kirchhoff:</strong> Reglas fundamentales para el análisis de circuitos. La ley de uniones se basa en la conservación de la carga y la ley de espiras en la conservación de la energía.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="card rounded-lg p-6">
+                             <h3 class="text-xl font-semibold text-gray-800 mb-4">Fórmulas Clave</h3>
+                            <div class="formula p-4 rounded-md mb-4 text-center">
+                                <p class="text-lg">$$V = IR$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Ley de Ohm</p>
+                            </div>
+                             <div class="formula p-4 rounded-md mb-4 text-center">
+                                <p class="text-lg">$$P = IV = I^2R = \frac{V^2}{R}$$</p>
+                                <p class="text-sm text-gray-600 mt-1">Potencia Eléctrica</p>
+                            </div>
+                        </div>
+                        <div class="interactive-container rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Calculadora de R Equivalente</h3>
+                            <div class="flex items-center space-x-4 mb-4">
+                                <label for="circuit-type" class="font-medium">Tipo:</label>
+                                <select id="circuit-type" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="series">Serie</option>
+                                    <option value="parallel">Paralelo</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="r1" class="block text-sm font-medium text-gray-700">R₁ (Ω)</label>
+                                    <input type="number" id="r1" value="10" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label for="r2" class="block text-sm font-medium text-gray-700">R₂ (Ω)</label>
+                                    <input type="number" id="r2" value="20" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md text-center">
+                                <p class="font-bold text-lg">Req = <span id="req-result">30.00</span> Ω</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const topics = document.querySelectorAll('.topic-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const topicId = tab.dataset.topic;
+                    
+                    tabs.forEach(t => t.classList.remove('active-tab'));
+                    tab.classList.add('active-tab');
+                    
+                    topics.forEach(topic => {
+                        if (topic.id === `topic-${topicId}`) {
+                            topic.classList.remove('hidden');
+                        } else {
+                            topic.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            initCoulombCanvas();
+            initGaussChart();
+            initPotentialChart();
+            initCircuitCalculator();
+        });
+
+        function initCoulombCanvas() {
+            const canvas = document.getElementById('coulomb-canvas');
+            const ctx = canvas.getContext('2d');
+            const q1Toggle = document.getElementById('q1-toggle');
+            const q2Toggle = document.getElementById('q2-toggle');
+            
+            let q1Sign = 1; 
+            let q2Sign = -1;
+
+            const charge1 = { x: canvas.width * 0.25, y: canvas.height / 2, radius: 10 };
+            const charge2 = { x: canvas.width * 0.75, y: canvas.height / 2, radius: 10 };
+
+            function updateButton(button, sign) {
+                if (sign === 1) {
+                    button.textContent = '+';
+                    button.className = 'px-3 py-1 text-sm font-semibold rounded-full focus:outline-none bg-red-100 text-red-700';
+                } else {
+                    button.textContent = '−';
+                    button.className = 'px-3 py-1 text-sm font-semibold rounded-full focus:outline-none bg-blue-100 text-blue-700';
+                }
+            }
+
+            function drawArrow(x, y, length, angle, color) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(length, 0);
+                ctx.lineTo(length - 10, -5);
+                ctx.moveTo(length, 0);
+                ctx.lineTo(length - 10, 5);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = q1Sign > 0 ? 'rgba(239, 68, 68, 0.8)' : 'rgba(59, 130, 246, 0.8)';
+                ctx.beginPath();
+                ctx.arc(charge1.x, charge1.y, charge1.radius, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.font = '12px sans-serif';
+                ctx.fillStyle = '#333';
+                ctx.fillText('q₁', charge1.x - 5, charge1.y + 20);
+
+                ctx.fillStyle = q2Sign > 0 ? 'rgba(239, 68, 68, 0.8)' : 'rgba(59, 130, 246, 0.8)';
+                ctx.beginPath();
+                ctx.arc(charge2.x, charge2.y, charge2.radius, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.fillText('q₂', charge2.x - 5, charge2.y + 20);
+                
+                const forceMagnitude = 50;
+                const forceColor = '#4A5568';
+                
+                if (q1Sign * q2Sign > 0) { // Repulsion
+                    drawArrow(charge1.x, charge1.y, forceMagnitude, Math.PI, forceColor);
+                    drawArrow(charge2.x, charge2.y, forceMagnitude, 0, forceColor);
+                } else { // Attraction
+                    drawArrow(charge1.x, charge1.y, forceMagnitude, 0, forceColor);
+                    drawArrow(charge2.x, charge2.y, forceMagnitude, Math.PI, forceColor);
+                }
+            }
+
+            q1Toggle.addEventListener('click', () => {
+                q1Sign *= -1;
+                updateButton(q1Toggle, q1Sign);
+                draw();
+            });
+
+            q2Toggle.addEventListener('click', () => {
+                q2Sign *= -1;
+                updateButton(q2Toggle, q2Sign);
+                draw();
+            });
+            
+            updateButton(q1Toggle, q1Sign);
+            updateButton(q2Toggle, q2Sign);
+            draw();
+        }
+
+        function initGaussChart() {
+            const ctx = document.getElementById('gauss-chart').getContext('2d');
+            const labels = [];
+            const dataInside = [];
+            const dataOutside = [];
+            const a = 10; 
+
+            for (let r = 0; r <= 20; r++) {
+                labels.push(r);
+                if (r <= a) {
+                    dataInside.push(r);
+                    dataOutside.push(null);
+                } else {
+                    dataInside.push(null);
+                    dataOutside.push(100 / (r*r));
+                }
+            }
+            
+            dataInside[a] = a;
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'E ∝ r (r ≤ a)',
+                            data: dataInside,
+                            borderColor: 'rgba(74, 144, 226, 1)',
+                            backgroundColor: 'rgba(74, 144, 226, 0.1)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'E ∝ 1/r² (r > a)',
+                            data: dataOutside,
+                            borderColor: 'rgba(239, 68, 68, 1)',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: false,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Distancia r' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Campo Eléctrico E' },
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: { display: false },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+        }
+
+        function initPotentialChart() {
+            const ctx = document.getElementById('potential-chart').getContext('2d');
+            const labels = [];
+            const dataV = [];
+            const dataE = [];
+
+            for (let r = 1; r <= 20; r++) {
+                labels.push(r);
+                dataV.push(20 / r); 
+                dataE.push(20 / (r * r));
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Potencial V ∝ 1/r',
+                            data: dataV,
+                            borderColor: 'rgba(74, 144, 226, 1)',
+                            yAxisID: 'yV',
+                            tension: 0.1,
+                        },
+                        {
+                            label: 'Campo E ∝ 1/r²',
+                            data: dataE,
+                            borderColor: 'rgba(239, 68, 68, 1)',
+                            yAxisID: 'yE',
+                             tension: 0.1,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Distancia r' }
+                        },
+                        yV: {
+                            type: 'linear',
+                            position: 'left',
+                            title: { display: true, text: 'Potencial V', font: {size: 14}, color: 'rgba(74, 144, 226, 1)'},
+                            beginAtZero: true
+                        },
+                        yE: {
+                            type: 'linear',
+                            position: 'right',
+                            title: { display: true, text: 'Campo E', font: {size: 14}, color: 'rgba(239, 68, 68, 1)'},
+                            grid: { drawOnChartArea: false },
+                             beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: { display: false },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+        }
+        
+        function initCircuitCalculator() {
+            const typeSelect = document.getElementById('circuit-type');
+            const r1Input = document.getElementById('r1');
+            const r2Input = document.getElementById('r2');
+            const resultSpan = document.getElementById('req-result');
+
+            function calculate() {
+                const type = typeSelect.value;
+                const r1 = parseFloat(r1Input.value) || 0;
+                const r2 = parseFloat(r2Input.value) || 0;
+                let req = 0;
+
+                if (type === 'series') {
+                    req = r1 + r2;
+                } else {
+                    if (r1 !== 0 && r2 !== 0) {
+                        req = 1 / (1/r1 + 1/r2);
+                    }
+                }
+                resultSpan.textContent = req.toFixed(2);
+            }
+
+            typeSelect.addEventListener('change', calculate);
+            r1Input.addEventListener('input', calculate);
+            r2Input.addEventListener('input', calculate);
+
+            calculate();
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ]
+            });
+        });
+    </script>
+</body>
+</html>
+
